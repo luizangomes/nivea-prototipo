@@ -102,7 +102,7 @@ def analisar_aluno():
                     entrada = input("Qual relatório você quer ler? ")
                     if entrada in listaAlunos[nome]["relatorios"].keys():
                         print("\n###")
-                        print(listaAlunos[nome]["relatorios"][entrada])
+                        print(f"Segundo o teste da psicogênese de Emília Ferreiro, foi possível constatar que a criança iniciou este bimestre no nível da escrita  {listaAlunos[nome]['relatorios'][entrada]} No entanto, no encerramento do bimestre, apresentou estar no mesmo nível da escrita. Com isto, evidenciou que quanto ao nível da escrita ela merece atenção em relação à sua compreensão do processo de escrita.")
                         print("###\n")
                     else:
                         print("Não há um relatório com esse nome.")
