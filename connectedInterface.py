@@ -4,8 +4,7 @@ from functools import partial
 
 class Application:
     def __init__(self, master=None):
-        def getOptions():
-            buttonVisualizarDados.get()
+        # Eu removi o voltar, mas vejam só que eu só coloquei aquela parte de criar o rav
         self.startMenuOptionsList = ["Adicionar aluno", "Remover aluno", "Analisar relatórios do aluno"]
         self.studentsList = []
 
@@ -39,11 +38,13 @@ class Application:
         self.buttonVisualizarDados.grid(row=2, column=0)
     
 def telaMostreAlunos(studentsList):
+    # Vai mostrar no terminal os dados que foram inseridos + adicionar na lista de estudantes o nome do estudante
     def mostreAluno():
         studentsList.append(nomeEntry.get())
         print("Nova Lista de Alunos:, ", studentsList)
         print("DADOS DO ALUNO:", nomeEntry.get(), anoEntry.get(), turmaEntry.get())
     
+    # Se o botão de mostrar alunos for acionados, ele irá mostrar na tela a lista de alunos
     def mostreAlunos():
         telaAddEstudante.geometry('300x300')
         lista = Label(telaAddEstudante)
@@ -91,6 +92,7 @@ def telaMostreAlunos(studentsList):
     alunosCadastrados = Button(telaAddEstudante, text="Alunos Cadastrados", command=mostreAlunos)
     alunosCadastrados.grid(row=8, column=0)
   
+# Só mostra os alunos que existem no banco de dados, mais os relatórios que eles gerariam de acordo com o nome do aluno
 def telaRelatorios(studentsList):            
     telaInicialRelatorios = Toplevel(root)
     telaInicialRelatorios.title(f'Relatórios')
