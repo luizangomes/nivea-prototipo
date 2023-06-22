@@ -1,3 +1,6 @@
+# import { PrismaClient } from '@prisma/client'
+# const prisma = new PrismaClient()
+
 from interface_para_cmd import *
 
 ip1 = itemPergunta("Quantos anos você tem?", **{"1":"Tenho um ano. ", "2":"Tenho dois anos. ", "3":"Minha idade não importa. "})

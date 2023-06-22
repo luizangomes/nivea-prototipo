@@ -1,8 +1,50 @@
-datasource db {
-  provider = "postgresql"
-  url      = env("DATABASE_URL")
+generator client {
+  provider  = "prisma-client-py"
+  interface = "asyncio"
 }
 
-generator client {
-  provider = "prisma-client-py"
+datasource db {
+  provider = "postgresql"
+  url      = "postgresql://postgres:postgres@localhost:5432/niveaprototipo?schema=public"
+}
+
+model aluno {
+  idaluno      Int    @id
+  anoescolar   String @db.VarChar(45)
+  turma        String @db.VarChar(100)
+  nomecompleto String @db.VarChar(100)
+  rav          rav?
+}
+
+model pergunta {
+  idpergunta       Int          @id
+  conteudopergunta String       @db.VarChar(100)
+  textogerado      textogerado?
+}
+
+model rav {
+  idrav         Int          @id
+  datadecriacao DateTime     @db.Timestamp(6)
+  bimestre      Int
+  idaluno       Int          @unique
+  aluno         aluno        @relation(fields: [idaluno], references: [idaluno], onDelete: NoAction, onUpdate: NoAction, map: "fk_aluno")
+  textogerado   textogerado?
+}
+
+model resposta {
+  idresposta       Int          @id
+  conteudoresposta String       @db.VarChar(100)
+  textogerado      textogerado?
+}
+
+model textogerado {
+  idtextogerado Int      @id
+  datadecriacao DateTime @db.Timestamp(6)
+  bimestre      Int?
+  idpergunta    Int      @unique
+  idresposta    Int      @unique
+  idrav         Int      @unique
+  pergunta      pergunta @relation(fields: [idpergunta], references: [idpergunta], onDelete: NoAction, onUpdate: NoAction, map: "fk_pergunta")
+  rav           rav      @relation(fields: [idrav], references: [idrav], onDelete: NoAction, onUpdate: NoAction, map: "fk_rav")
+  resposta      resposta @relation(fields: [idresposta], references: [idresposta], onDelete: NoAction, onUpdate: NoAction, map: "fk_resposta")
 }
