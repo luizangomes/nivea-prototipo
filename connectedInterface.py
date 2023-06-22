@@ -1,9 +1,12 @@
 from tkinter import *
 from interface_para_cmd import *
+from functools import partial
 
 class Application:
     def __init__(self, master=None):
-        self.startMenuOptionsList = ["Adicionar aluno", "Remover aluno", "Analisar relatórios do aluno", "Voltar"]
+        def getOptions():
+            buttonVisualizarDados.get()
+        self.startMenuOptionsList = ["Adicionar aluno", "Remover aluno", "Analisar relatórios do aluno"]
         self.studentsList = []
 
         ### Título ###
@@ -21,54 +24,101 @@ class Application:
         self.frameTableOptions = Frame(master)
         self.frameTableOptions['pady'] = 20
         self.frameTableOptions.pack()
-
-        for option in self.startMenuOptionsList:
-            self.buttonVisualizarDados = Button(self.frameTableOptions)
-            self.buttonVisualizarDados['text'] = option
-            self.buttonVisualizarDados['command'] = lambda option=option : telaMostreAlunos(self.studentsList)          
-            self.buttonVisualizarDados.grid(row=self.startMenuOptionsList.index(option), column=0)
-     
+        
+        self.buttonVisualizarDados = Button(self.frameTableOptions)
+        self.buttonVisualizarDados['text'] = self.startMenuOptionsList[0]
+        self.buttonVisualizarDados['command'] = lambda :  telaMostreAlunos(self.studentsList)          
+        self.buttonVisualizarDados.grid(row=0, column=0)
+        self.buttonVisualizarDados = Button(self.frameTableOptions)
+        self.buttonVisualizarDados['text'] = self.startMenuOptionsList[1]
+        self.buttonVisualizarDados['command'] = lambda :  telaMostreAlunos(self.studentsList)          
+        self.buttonVisualizarDados.grid(row=1, column=0)
+        self.buttonVisualizarDados = Button(self.frameTableOptions)
+        self.buttonVisualizarDados['text'] = self.startMenuOptionsList[2]
+        self.buttonVisualizarDados['command'] = lambda : telaRelatorios(self.studentsList)         
+        self.buttonVisualizarDados.grid(row=2, column=0)
     
 def telaMostreAlunos(studentsList):
-  telaAddEstudante = Toplevel(root)
-  telaAddEstudante.title(f'Adicionar alunos')
-  telaAddEstudante.geometry('350x350')
-  
+    def mostreAluno():
+        studentsList.append(nomeEntry.get())
+        print("Nova Lista de Alunos:, ", studentsList)
+        print("DADOS DO ALUNO:", nomeEntry.get(), anoEntry.get(), turmaEntry.get())
+    
+    def mostreAlunos():
+        telaAddEstudante.geometry('300x300')
+        lista = Label(telaAddEstudante)
+        lista["text"] = "Alunos cadastrados\n na plataforma"
+        lista['font'] = ('Arial', '11', 'bold')
+        lista.grid(row=10, column=0)
+        for aluno in studentsList:
+            listaDeAlunos = Label(telaAddEstudante)
+            listaDeAlunos["text"] = aluno
+            listaDeAlunos.grid(row=11+studentsList.index(aluno), column=0)
+    
+    telaAddEstudante = Toplevel(root)
+    telaAddEstudante.title(f'Adicionar alunos')
+    telaAddEstudante.geometry('300x200')
         
-  frameTableOptions = Frame(root)
-  frameTableOptions['pady'] = 25
-  frameTableOptions.pack()
+    frameTableOptions = Frame(root)
+    frameTableOptions['pady'] = 50
+    frameTableOptions.pack()
   
-  title = Label(telaAddEstudante)
-  title["text"] = "Adicionar Aluno"
-  title['font'] = ('Arial', '13', 'bold')
-  title.grid(row=0, column=0)
+    title = Label(telaAddEstudante)
+    title["text"] = "Adicionar Aluno"
+    title['font'] = ('Arial', '13', 'bold')
+    title.grid(row=0, column=0)
+    
+    nomeLabel = Label(telaAddEstudante, text="Nome Completo")
+    nomeLabel.grid(row=1, column=0)
+    nomeEntry = Entry(telaAddEstudante)
+    nomeEntry.grid(row=1, column=1)
+    
+    anoLabel = Label(telaAddEstudante, text="Ano Escolar")
+    anoLabel.grid(row=2, column=0)
+    anoEntry = Entry(telaAddEstudante)
+    anoEntry.grid(row=2, column=1)
+    
+    turmaLabel = Label(telaAddEstudante, text="Turma")
+    turmaLabel.grid(row=3, column=0)
+    turmaEntry = Entry(telaAddEstudante)
+    turmaEntry.grid(row=3, column=1)
+    
+    addEstudante = Button(telaAddEstudante, text="Adicionar")
+    addEstudante['command'] = mostreAluno
+    addEstudante.grid(row=5, column=1)
+    fecharGuia = Button(telaAddEstudante, text="Voltar ao menu", command=telaAddEstudante.destroy)
+    fecharGuia.grid(row=7, column=1)
+    alunosCadastrados = Button(telaAddEstudante, text="Alunos Cadastrados", command=mostreAlunos)
+    alunosCadastrados.grid(row=8, column=0)
   
-  nomeLabel = Label(telaAddEstudante, text="Nome Completo")
-  nomeLabel.grid(row=1, column=0)
-  nomeEntry = Entry(telaAddEstudante)
-  nomeEntry.grid(row=1, column=1)
-  
-  anoLabel = Label(telaAddEstudante, text="Ano Escolar")
-  anoLabel.grid(row=2, column=0)
-  anoEntry = Entry(telaAddEstudante)
-  anoEntry.grid(row=2, column=1)
-  
-  turmaLabel = Label(telaAddEstudante, text="Turma")
-  turmaLabel.grid(row=3, column=0)
-  turmaEntry = Entry(telaAddEstudante)
-  turmaEntry.grid(row=3, column=1)
-  
-  addEstudante = Button(telaAddEstudante, text="Adicionar", command=telaAddEstudante.destroy)
-  addEstudante['command'] = studentsList.append(str(nomeEntry.focus_get()))
-  addEstudante.grid(row=5, column=1)
-  print(studentsList, str(nomeEntry.get()))
-  
+def telaRelatorios(studentsList):            
+    telaInicialRelatorios = Toplevel(root)
+    telaInicialRelatorios.title(f'Relatórios')
+    telaInicialRelatorios.geometry('300x200')
+       
+    frameTableOptions = Frame(root)
+    frameTableOptions['pady'] = 50
+    frameTableOptions.pack()
+    lista = Label(telaInicialRelatorios)
+    lista["text"] = "Alunos cadastrados\n na plataforma"
+    lista['font'] = ('Arial', '11', 'bold')
+    lista.grid(row=0, column=0)
+    for aluno in studentsList:
+        listaDeAlunos = Label(telaInicialRelatorios)
+        listaDeAlunos["text"] = aluno
+        listaDeAlunos.grid(row=1+studentsList.index(aluno), column=0)
+        
+        buttonVisualizarDados = Button(telaInicialRelatorios)
+        buttonVisualizarDados['text'] = "Fazer o RAV"
+        buttonVisualizarDados['command'] = lambda student=aluno : telaEstudante(student)           
+        buttonVisualizarDados.grid(row=1+studentsList.index(aluno), column=1)
+     
+
 def telaEstudante(student):
         ### Nova tela ###
         telaEstudante = Toplevel(root)
         telaEstudante.title(f'Tela de {student}')
-        telaEstudante.geometry('300x300')
+        telaEstudante.geometry('300x200')
 
         ### Título = nome do estudante ###
         studentName = Label(telaEstudante)
@@ -101,7 +151,6 @@ def telaEstudante(student):
         buttonForm['command'] = lambda: telaResponderForm(student, telaEstudante)
         buttonForm.pack()
       
-
         
 def telaRelatorio(student, telaEstudante):
     ### Nova tela ###
