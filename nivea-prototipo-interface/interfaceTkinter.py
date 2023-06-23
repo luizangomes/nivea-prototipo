@@ -256,6 +256,10 @@ def gerarRelatorio(key, key2, student):
     textoRelatorio['text'] = intro + resp1 + conjun + resp2 + concl
     textoRelatorio.pack()
 
+    with open(f'relatorio{student}.txt', 'w', encoding='UTF-8') as arq:
+        arq.write(f'Relatório de {student}\n')
+        arq.write(textoRelatorio['text'])
+
 
 dictCheckButtons = {}
 dictCheckButtons2 = {}
