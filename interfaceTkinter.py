@@ -108,7 +108,7 @@ def telaResponderForm(student, telaEstudante):
     
     ### Label formulário ###
     labelForm = Label(telaResponderForm)
-    labelForm['text'] = 'Formulário de avaliação'
+    labelForm['text'] = '"Segundo o teste da psicogênese de Emília Ferreiro, foi possível constatar que a criança iniciou este bimestre no nível da escrita "'
     labelForm['font'] = ('Arial', '13', 'bold')
     labelForm.pack()
 
@@ -117,9 +117,11 @@ def telaResponderForm(student, telaEstudante):
     frameCheckboxes['pady'] = 10
     frameCheckboxes.pack()
 
-    for i in range(10):
+    respDict = {"1":"pré-silábico; ainda não fazer a correspondência entre letras e os sons. Inventa desenhos garatujas e rabiscos para representas a escrita ", "2":"pré-silábico com uso de letras muitas vezes do próprio nome ou misturam números e letras para representar a escrita", "3":"pré-silábico; utiliza muitas letras para escrever o nome de coisas grandes e que coisas pequenas têm nomes pequenos", "4": "pré-silábico; escreve uma palavra utilizando uma variedade de letras, acredita que para escrever tem que variar as letras", "5": "silábico sem valor sonoro; acredita que existe relação entre o que se fala e o que se escreve. Faz correspondência entre quantidade de sílabas e uma letra para cada sílaba sem valor sonoro, não se preocupa com a correspondência do som e letra", "6": "silábico com valor sonoro; utiliza uma letra para representar cada sílaba com valor sonoro. Às vezes só usa vogais, ou só consoantes, ou consoantes e vogais", "7": "silábico alfabético; escreve combinando consoante e vogais formando sílabas, mas as vezes não forma a sílaba completa usando só vogais ou só consoantes", "8": "alfabético; registra os sons através das letras fazendo uso de sílabas simples.", "9": "da escrita ortográfico; faz reconhecimento visual direto das palavras, pela estratégia lexical (reconhecimento visual diretamente da forma ortográfica das letras) e não está mais na decodificação (estratégia fonológica)."}
+
+    for i in respDict:
         checkbox = Checkbutton(frameCheckboxes)
-        checkbox['text'] = i
+        checkbox['text'] = respDict[i]
         checkbox.pack()
 
 
